@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Chujai Boxing Club</title>
+<meta name="theme-color" content="#E675A6">
+<meta property="og:title" content="Chujai Boxing Club">
+<meta property="og:description" content="ลงทะเบียนกิจกรรม · เช็คอิน · หน้าสมาชิก">
+<style>
+  html, body { margin: 0; height: 100%; background: #FFF4F9; overflow: hidden; }
+  #app { position: fixed; inset: 0; width: 100%; height: 100%; border: 0; display: block; background: #FFF4F9; }
+  #wait { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
+          font-family: -apple-system, "Segoe UI", "Noto Sans Thai", Tahoma, sans-serif; color: #B8336F; background: #FFF4F9; z-index: 2; transition: opacity .25s; }
+  #wait.gone { opacity: 0; pointer-events: none; }
+  .club { font-size: 20px; font-weight: 700; letter-spacing: .5px; }
+  .spin { width: 34px; height: 34px; border: 4px solid #F6C9DD; border-top-color: #E675A6; border-radius: 50%; animation: s 1s linear infinite; }
+  @keyframes s { to { transform: rotate(360deg); } }
+  #help { display: none; font-size: 14px; color: #6b7280; text-align: center; padding: 0 24px; line-height: 1.6; }
+  #help a { color: #B8336F; font-weight: 700; }
+</style>
+</head>
+<body>
+<div id="wait">
+  <div class="club">Chujai Boxing Club</div>
+  <div class="spin"></div>
+  <div id="help">ถ้าหน้าไม่ขึ้นภายในไม่กี่วินาที <a id="direct" href="#" target="_top">แตะที่นี่เพื่อเปิดโดยตรง</a></div>
+</div>
+<script>
+  // ===== ลิงก์ Web App (ลงท้ายด้วย /exec) ถ้าทำ Deploy ใหม่จนลิงก์เปลี่ยน แก้บรรทัดนี้บรรทัดเดียว =====
+  var APP = 'https://script.google.com/macros/s/AKfycbw8rSrsHm_I_dJHqF-fAvYuQ302dK7OzHw99m0liOYzP1zhAEySQ2tBDQzuHt7e6tW4/exec';
+
+  var q = location.search || '';
+  var mode = (new URLSearchParams(q).get('mode') || '').toLowerCase();
+  var target = APP + q;
+  document.getElementById('direct').href = target;
+
+  // หน้าแอดมิน / ไฟล์ปฏิทิน เปิดตรงที่ Google ไม่ต้องฝัง
+  if (mode === 'admin' || mode === 'ics') {
+    location.replace(target);
+  } else {
+    var f = document.createElement('iframe');
+    f.id = 'app';
+    f.title = 'Chujai Boxing Club';
+    f.allow = 'clipboard-read; clipboard-write; camera; fullscreen';
+    f.src = target;
+    f.onload = function () { document.getElementById('wait').className = 'gone'; };
+    document.body.appendChild(f);
+    setTimeout(function () { document.getElementById('help').style.display = 'block'; }, 6000);
+  }
+</script>
+</body>
+</html>
